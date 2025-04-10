@@ -18,7 +18,7 @@ class SkylineGUI(QWidget):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        # Left Content
+        # ========== Left Main Content ==========
         left_layout = QVBoxLayout()
         left_layout.setContentsMargins(20, 20, 20, 20)
         main_layout.addLayout(left_layout, stretch=5)
@@ -52,31 +52,34 @@ class SkylineGUI(QWidget):
         version_label.setStyleSheet("color: white;")
         left_layout.addWidget(version_label)
 
-        # ===== Right Sidebar =====
+        # ========== Right Sidebar ==========
         right_sidebar = QFrame()
         right_sidebar.setFixedWidth(350)
         right_sidebar.setStyleSheet("background-color: #101c3b;")
 
         sidebar_layout = QVBoxLayout()
         sidebar_layout.setContentsMargins(20, 20, 20, 20)
-        sidebar_layout.setSpacing(0)  # No layout spacing
+        sidebar_layout.setSpacing(0)
         right_sidebar.setLayout(sidebar_layout)
 
-        # Top logo images
-        logo_images = [
-            ("images/img1.svg", 50),
-            ("images/img2.svg", 30),
-        ]
+        # === Top Logos: tightly stacked with NO gap ===
+        logo1 = QLabel()
+        logo1.setPixmap(QPixmap("images/img1.svg"))
+        logo1.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        logo1.setContentsMargins(0, 0, 0, 0)
+        logo1.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
 
-        for path, left_margin in logo_images:
-            label = QLabel()
-            pixmap = QPixmap(path)
-            label.setPixmap(pixmap)
-            label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
-            label.setContentsMargins(left_margin, 0, 0, 20)
-            sidebar_layout.addWidget(label)
+        logo2 = QLabel()
+        logo2.setPixmap(QPixmap("images/img2.svg"))
+        logo2.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        logo2.setContentsMargins(0, 0, 0, 0)
+        logo2.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
 
-        # Menu items - tighter layout
+        sidebar_layout.addWidget(logo1, alignment=Qt.AlignHCenter)
+        sidebar_layout.addWidget(logo2, alignment=Qt.AlignHCenter)
+        sidebar_layout.addSpacing(20)  # spacing after logos before menu
+
+        # === Menu items ===
         menu_images = [
             "images/img3.svg",  # Home
             "images/img4.svg",  # Preprocessing
