@@ -3,12 +3,11 @@ from PyQt5.QtWidgets import (
     QHBoxLayout, QGridLayout, QLineEdit, QFrame, QSizePolicy,
     QScrollArea
 )
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt
 import sys
 
 
-# === HoverLabel Class for Sidebar Menu Items ===
 class HoverLabel(QLabel):
     def __init__(self, path, parent=None):
         super().__init__(parent)
@@ -27,7 +26,6 @@ class HoverLabel(QLabel):
         super().leaveEvent(event)
 
 
-# === HoverImage Class for Dataset Picker ===
 class HoverImage(QLabel):
     def __init__(self, path, parent=None):
         super().__init__(parent)
@@ -56,17 +54,16 @@ class SkylineGUI(QWidget):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        # ========== Left Main Content ==========
+        # ========== Left Layout ==========
         left_layout = QVBoxLayout()
         left_layout.setContentsMargins(20, 20, 20, 20)
         left_layout.setSpacing(20)
         main_layout.addLayout(left_layout, stretch=5)
 
-        # ======= TOP BAR LAYOUT =======
+        # ===== Top Bar (Dataset Picker + Carousel) =====
         top_bar = QHBoxLayout()
         top_bar.setSpacing(0)
 
-        # Dataset picker image and label
         picker_layout = QVBoxLayout()
         picker_layout.setSpacing(10)
         picker_layout.setContentsMargins(0, 30, 5, 60)
@@ -82,9 +79,7 @@ class SkylineGUI(QWidget):
 
         top_bar.addLayout(picker_layout)
 
-        # Carousel
         carousel_container = QFrame()
-
         carousel_container.setFixedSize(1320, 120)
         carousel_container.setStyleSheet("background-color: #1a1f3c; border-radius: 4px;")
         carousel_layout = QHBoxLayout()
@@ -127,51 +122,74 @@ class SkylineGUI(QWidget):
         left_layout.addLayout(top_bar)
 
         # Horizontal Line
-        horizontal_line = QFrame()
-        horizontal_line.setFrameShape(QFrame.HLine)
-        horizontal_line.setStyleSheet("color: white; background-color: white; max-height: 1px;")
-        left_layout.addWidget(horizontal_line)
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setStyleSheet("color: white; background-color: white; max-height: 1px;")
+        left_layout.addWidget(line)
 
-        # Image grid
-        grid = QGridLayout()
-        grid.addWidget(QLabel("RAW"), 0, 0)
-        grid.addWidget(QLabel("Preprocessed"), 0, 1)
-        grid.addWidget(QLabel("Skyline candidacy"), 2, 0)
-        grid.addWidget(QLabel("Skyline detection:"), 2, 1)
-        left_layout.addLayout(grid)
+        # ===== Image Grid =====
+        image_grid = QGridLayout()
+        image_grid.setSpacing(20)
 
-        # Bottom bar
+        def add_image_with_label(label_text, img_path, row, col):
+            label = QLabel(label_text)
+            label.setAlignment(Qt.AlignCenter)
+            image = QLabel()
+            image.setPixmap(QPixmap(img_path).scaledToWidth(400))
+            image.setAlignment(Qt.AlignCenter)
+            image_grid.addWidget(label, row, col)
+            image_grid.addWidget(image, row + 1, col)
+
+        add_image_with_label("RAW", "images/raw.svg", 0, 0)
+        add_image_with_label("Preprocessed", "images/preprocessed.svg", 0, 1)
+        add_image_with_label("Skyline candidacy", "images/skyline_candidacy.svg", 2, 0)
+        add_image_with_label("Skyline detection", "images/skyline_detection.svg", 2, 1)
+
+        left_layout.addLayout(image_grid)
+
+        # ===== Bottom Bar =====
         bottom_bar = QHBoxLayout()
         bottom_bar.addWidget(QLabel("📍 Current position:"))
         bottom_bar.addWidget(QLineEdit())
         bottom_bar.addStretch()
         bottom_bar.addWidget(QPushButton("👍 Correct"))
         bottom_bar.addWidget(QPushButton("👎 Incorrect"))
-        bottom_bar.addWidget(QPushButton("💾 Save"))
-        bottom_bar.addWidget(QPushButton("🗑️ Discard"))
+
+        # Save (image-based)
+        save_label = QLabel()
+        save_pixmap = QPixmap("images/save.svg")
+        save_label.setPixmap(save_pixmap)
+        save_label.setAlignment(Qt.AlignCenter)
+        save_label.setFixedSize(save_pixmap.size())
+        bottom_bar.addWidget(save_label)
+
+        # Discard (image-based)
+        discard_label = QLabel()
+        discard_pixmap = QPixmap("images/discard.svg")
+        discard_label.setPixmap(discard_pixmap)
+        discard_label.setAlignment(Qt.AlignCenter)
+        discard_label.setFixedSize(discard_pixmap.size())
+        bottom_bar.addWidget(discard_label)
+
         left_layout.addLayout(bottom_bar)
 
-        # ========== Right Sidebar ==========
+        # ===== Right Sidebar =====
         right_sidebar = QFrame()
         right_sidebar.setFixedWidth(350)
         right_sidebar.setStyleSheet("background-color: #101c3b;")
-
         sidebar_layout = QVBoxLayout()
         sidebar_layout.setContentsMargins(20, 20, 20, 20)
         sidebar_layout.setSpacing(0)
         right_sidebar.setLayout(sidebar_layout)
 
-        # Sidebar logos
         logo1 = QLabel()
         logo1.setPixmap(QPixmap("images/img1.svg"))
         logo1.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        logo1.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
 
         logo2 = QLabel()
         logo2.setPixmap(QPixmap("images/img2.svg"))
         logo2.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         logo2.setContentsMargins(0, 20, 0, 20)
-        logo2.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
 
         sidebar_layout.addWidget(logo1, alignment=Qt.AlignHCenter)
         sidebar_layout.addWidget(logo2, alignment=Qt.AlignHCenter)
