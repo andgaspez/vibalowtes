@@ -46,7 +46,7 @@ class HoverImage(QLabel):
 class SkylineGUI(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Skyline Detection GUI")
+        self.setWindowTitle("A Vision-Based Navigation Method in Low-Textured Environments")
         self.setGeometry(100, 100, 1600, 900)
         self.setStyleSheet("background-color: #202e59; color: white;")
 
@@ -155,20 +155,12 @@ class SkylineGUI(QWidget):
         bottom_bar.addWidget(QPushButton("👍 Correct"))
         bottom_bar.addWidget(QPushButton("👎 Incorrect"))
 
-        # Save (image-based)
-        save_label = QLabel()
-        save_pixmap = QPixmap("images/save.svg")
-        save_label.setPixmap(save_pixmap)
-        save_label.setAlignment(Qt.AlignCenter)
-        save_label.setFixedSize(save_pixmap.size())
+        # Save (with hover)
+        save_label = HoverImage("images/save.svg")
         bottom_bar.addWidget(save_label)
 
-        # Discard (image-based)
-        discard_label = QLabel()
-        discard_pixmap = QPixmap("images/discard.svg")
-        discard_label.setPixmap(discard_pixmap)
-        discard_label.setAlignment(Qt.AlignCenter)
-        discard_label.setFixedSize(discard_pixmap.size())
+        # Discard (with hover)
+        discard_label = HoverImage("images/discard.svg")
         bottom_bar.addWidget(discard_label)
 
         left_layout.addLayout(bottom_bar)
