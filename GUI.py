@@ -68,8 +68,8 @@ class SkylineGUI(QWidget):
 
         # Dataset picker image and label
         picker_layout = QVBoxLayout()
-        picker_layout.setSpacing(0)
-        picker_layout.setContentsMargins(0, 30, 0, 0)
+        picker_layout.setSpacing(10)
+        picker_layout.setContentsMargins(0, 30, 5, 60)
         picker_layout.setAlignment(Qt.AlignLeft | Qt.AlignTop)
 
         dataset_picker_img = HoverImage("images/dataset_picker.svg")
