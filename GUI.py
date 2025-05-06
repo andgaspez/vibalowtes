@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal
 import sys
+from PyQt5.QtSvg import QSvgWidget, QSvgRenderer
 
 # === HoverImage and HoverLabel ===
 
@@ -93,9 +94,29 @@ class PreprocessingPanel(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
-        label = QLabel("⚙️ Preprocessing Panel")
-        label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(label)
+
+        svg_path = "images/img4.svg"
+
+        # Load renderer to get intrinsic size
+        renderer = QSvgRenderer(svg_path)
+        default_size = renderer.defaultSize()
+
+        # Scale by factor (e.g., 1.5x)
+        scale_factor = 1.5
+        scaled_width = int(default_size.width() * scale_factor)
+        scaled_height = int(default_size.height() * scale_factor)
+
+        # Apply to widget
+        svg_widget = QSvgWidget(svg_path)
+        svg_widget.setFixedSize(scaled_width, scaled_height)
+        svg_widget.setStyleSheet("background: transparent;")
+
+        container = QHBoxLayout()
+        container.addWidget(svg_widget)
+        container.addStretch()
+
+        layout.addLayout(container)
+        layout.addStretch()
         self.setLayout(layout)
 
 
@@ -103,29 +124,88 @@ class FeatureExtractionPanel(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
-        label = QLabel("🔍 Feature Extraction Panel")
-        label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(label)
+
+        svg_path = "images/img5.svg"
+
+        # Load renderer to get intrinsic size
+        renderer = QSvgRenderer(svg_path)
+        default_size = renderer.defaultSize()
+
+        # Scale by factor (e.g., 1.5x)
+        scale_factor = 1.5
+        scaled_width = int(default_size.width() * scale_factor)
+        scaled_height = int(default_size.height() * scale_factor)
+
+        # Apply to widget
+        svg_widget = QSvgWidget(svg_path)
+        svg_widget.setFixedSize(scaled_width, scaled_height)
+        svg_widget.setStyleSheet("background: transparent;")
+
+        container = QHBoxLayout()
+        container.addWidget(svg_widget)
+        container.addStretch()
+
+        layout.addLayout(container)
+        layout.addStretch()
         self.setLayout(layout)
 
 
 class SkylineCandidacyPanel(QWidget):
-
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
-        label = QLabel("🛰️ Skyline Panel Placeholder")
-        label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(label)
+
+        svg_path = "images/img6.svg"
+
+        # Load renderer to get intrinsic size
+        renderer = QSvgRenderer(svg_path)
+        default_size = renderer.defaultSize()
+
+        # Scale by factor (e.g., 1.5x)
+        scale_factor = 1.5
+        scaled_width = int(default_size.width() * scale_factor)
+        scaled_height = int(default_size.height() * scale_factor)
+
+        # Apply to widget
+        svg_widget = QSvgWidget(svg_path)
+        svg_widget.setFixedSize(scaled_width, scaled_height)
+        svg_widget.setStyleSheet("background: transparent;")
+
+        container = QHBoxLayout()
+        container.addWidget(svg_widget)
+        container.addStretch()
+
+        layout.addLayout(container)
+        layout.addStretch()
         self.setLayout(layout)
 
 class ReportPanel(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
-        label = QLabel("📊 Report Generation Panel")
-        label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(label)
+
+        svg_path = "images/img7.svg"
+
+        # Load renderer to get intrinsic size
+        renderer = QSvgRenderer(svg_path)
+        default_size = renderer.defaultSize()
+
+        # Scale by factor (e.g., 1.5x)
+        scale_factor = 1.5
+        scaled_width = int(default_size.width() * scale_factor)
+        scaled_height = int(default_size.height() * scale_factor)
+
+        # Apply to widget
+        svg_widget = QSvgWidget(svg_path)
+        svg_widget.setFixedSize(scaled_width, scaled_height)
+        svg_widget.setStyleSheet("background: transparent;")
+
+        container = QHBoxLayout()
+        container.addWidget(svg_widget)
+        container.addStretch()
+
+        layout.addLayout(container)
+        layout.addStretch()
         self.setLayout(layout)
 
 # === Main GUI ===
