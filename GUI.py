@@ -1,14 +1,16 @@
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QVBoxLayout,
     QHBoxLayout, QGridLayout, QLineEdit, QFrame, QSizePolicy,
-    QScrollArea
+    QScrollArea, QStackedWidget
 )
-from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt, pyqtSignal
 import sys
 
 
 class HoverLabel(QLabel):
+    clicked = pyqtSignal()
+
     def __init__(self, path, parent=None):
         super().__init__(parent)
         self.setPixmap(QPixmap(path))
@@ -24,6 +26,10 @@ class HoverLabel(QLabel):
     def leaveEvent(self, event):
         self.setStyleSheet("background-color: transparent;")
         super().leaveEvent(event)
+
+    def mousePressEvent(self, event):
+        self.clicked.emit()
+        super().mousePressEvent(event)
 
 
 class HoverImage(QLabel):
@@ -127,43 +133,25 @@ class SkylineGUI(QWidget):
         line.setStyleSheet("color: white; background-color: white; max-height: 1px;")
         left_layout.addWidget(line)
 
-        # ===== Image Grid =====
-        image_grid = QGridLayout()
-        image_grid.setSpacing(20)
+        # ===== Tabs Stack =====
+        self.stack = QStackedWidget()
+        left_layout.addWidget(self.stack)
 
-        def add_image_with_label(label_text, img_path, row, col):
-            label = QLabel(label_text)
-            label.setAlignment(Qt.AlignCenter)
-            image = QLabel()
-            image.setPixmap(QPixmap(img_path).scaledToWidth(400))
-            image.setAlignment(Qt.AlignCenter)
-            image_grid.addWidget(label, row, col)
-            image_grid.addWidget(image, row + 1, col)
+        # ====== Define panels ======
+        self.home_panel = QLabel("Home Panel", alignment=Qt.AlignCenter)
+        self.preprocess_panel = QLabel("Preprocessing Panel", alignment=Qt.AlignCenter)
+        self.feature_panel = QLabel("Feature Extraction Panel", alignment=Qt.AlignCenter)
+        self.skyline_panel = self.create_skyline_panel()
+        self.report_panel = QLabel("Report Generation Panel", alignment=Qt.AlignCenter)
 
-        add_image_with_label("RAW", "images/raw.svg", 0, 0)
-        add_image_with_label("Preprocessed", "images/preprocessed.svg", 0, 1)
-        add_image_with_label("Skyline candidacy", "images/skyline_candidacy.svg", 2, 0)
-        add_image_with_label("Skyline detection", "images/skyline_detection.svg", 2, 1)
+        # Add panels to stack
+        self.stack.addWidget(self.home_panel)
+        self.stack.addWidget(self.preprocess_panel)
+        self.stack.addWidget(self.feature_panel)
+        self.stack.addWidget(self.skyline_panel)
+        self.stack.addWidget(self.report_panel)
 
-        left_layout.addLayout(image_grid)
-
-        # ===== Bottom Bar =====
-        bottom_bar = QHBoxLayout()
-        bottom_bar.addWidget(QLabel("📍 Current position:"))
-        bottom_bar.addWidget(QLineEdit())
-        bottom_bar.addStretch()
-        bottom_bar.addWidget(QPushButton("👍 Correct"))
-        bottom_bar.addWidget(QPushButton("👎 Incorrect"))
-
-        # Save (with hover)
-        save_label = HoverImage("images/save.svg")
-        bottom_bar.addWidget(save_label)
-
-        # Discard (with hover)
-        discard_label = HoverImage("images/discard.svg")
-        bottom_bar.addWidget(discard_label)
-
-        left_layout.addLayout(bottom_bar)
+        self.stack.setCurrentIndex(0)
 
         # ===== Right Sidebar =====
         right_sidebar = QFrame()
@@ -191,15 +179,19 @@ class SkylineGUI(QWidget):
         line_top.setStyleSheet("color: white; background-color: white; max-height: 1px;")
         sidebar_layout.addWidget(line_top)
 
-        menu_images = [
-            "images/img3.svg",
-            "images/img4.svg",
-            "images/img5.svg",
-            "images/img6.svg",
-            "images/img7.svg"
+        # ===== Menu with Clickable Labels =====
+        menu_items = [
+            ("images/img3.svg", 0),  # Home
+            ("images/img4.svg", 1),  # Preprocessing
+            ("images/img5.svg", 2),  # Feature Extraction
+            ("images/img6.svg", 3),  # Skyline Candidacy
+            ("images/img7.svg", 4)   # Report Generation
         ]
-        for path in menu_images:
-            sidebar_layout.addWidget(HoverLabel(path))
+
+        for path, index in menu_items:
+            menu_button = HoverLabel(path)
+            menu_button.clicked.connect(lambda checked=False, idx=index: self.stack.setCurrentIndex(idx))
+            sidebar_layout.addWidget(menu_button)
 
         line_bottom = QFrame()
         line_bottom.setFrameShape(QFrame.HLine)
@@ -212,7 +204,47 @@ class SkylineGUI(QWidget):
         sidebar_layout.addWidget(version_label)
 
         main_layout.addWidget(right_sidebar)
-        self.setLayout(main_layout)
+
+    def create_skyline_panel(self):
+        panel = QWidget()
+        layout = QVBoxLayout()
+        panel.setLayout(layout)
+
+        image_grid = QGridLayout()
+        image_grid.setSpacing(20)
+
+        def add_image_with_label(label_text, img_path, row, col):
+            label = QLabel(label_text)
+            label.setAlignment(Qt.AlignCenter)
+            image = QLabel()
+            image.setPixmap(QPixmap(img_path).scaledToWidth(400))
+            image.setAlignment(Qt.AlignCenter)
+            image_grid.addWidget(label, row, col)
+            image_grid.addWidget(image, row + 1, col)
+
+        add_image_with_label("RAW", "images/raw.svg", 0, 0)
+        add_image_with_label("Preprocessed", "images/preprocessed.svg", 0, 1)
+        add_image_with_label("Skyline candidacy", "images/skyline_candidacy.svg", 2, 0)
+        add_image_with_label("Skyline detection", "images/skyline_detection.svg", 2, 1)
+
+        layout.addLayout(image_grid)
+
+        bottom_bar = QHBoxLayout()
+        bottom_bar.addWidget(QLabel("📍 Current position:"))
+        bottom_bar.addWidget(QLineEdit())
+        bottom_bar.addStretch()
+        bottom_bar.addWidget(QPushButton("👍 Correct"))
+        bottom_bar.addWidget(QPushButton("👎 Incorrect"))
+
+        save_label = HoverImage("images/save.svg")
+        bottom_bar.addWidget(save_label)
+
+        discard_label = HoverImage("images/discard.svg")
+        bottom_bar.addWidget(discard_label)
+
+        layout.addLayout(bottom_bar)
+
+        return panel
 
 
 if __name__ == "__main__":
