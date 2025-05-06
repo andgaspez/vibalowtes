@@ -7,6 +7,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal
 import sys
 
+# === HoverImage and HoverLabel ===
 
 class HoverLabel(QLabel):
     clicked = pyqtSignal()
@@ -48,6 +49,86 @@ class HoverImage(QLabel):
         self.setStyleSheet("background-color: transparent; padding: 5px;")
         super().leaveEvent(event)
 
+# === Panels for Each Tab ===
+
+class HomePanel(QWidget):
+
+    def __init__(self):
+            super().__init__()
+            layout = QVBoxLayout()
+
+            image_grid = QGridLayout()
+            image_grid.setSpacing(20)
+
+            def add_image_with_label(label_text, img_path, row, col):
+                label = QLabel(label_text)
+                label.setAlignment(Qt.AlignCenter)
+                image = QLabel()
+                image.setPixmap(QPixmap(img_path).scaledToWidth(400))
+                image.setAlignment(Qt.AlignCenter)
+                image_grid.addWidget(label, row, col)
+                image_grid.addWidget(image, row + 1, col)
+
+            add_image_with_label("RAW", "images/raw.svg", 0, 0)
+            add_image_with_label("Preprocessed", "images/preprocessed.svg", 0, 1)
+            add_image_with_label("Skyline candidacy", "images/skyline_candidacy.svg", 2, 0)
+            add_image_with_label("Skyline detection", "images/skyline_detection.svg", 2, 1)
+
+            layout.addLayout(image_grid)
+
+            bottom_bar = QHBoxLayout()
+            bottom_bar.addWidget(QLabel("📍 Current position:"))
+            bottom_bar.addWidget(QLineEdit())
+            bottom_bar.addStretch()
+            bottom_bar.addWidget(QPushButton("👍 Correct"))
+            bottom_bar.addWidget(QPushButton("👎 Incorrect"))
+            bottom_bar.addWidget(HoverImage("images/save.svg"))
+            bottom_bar.addWidget(HoverImage("images/discard.svg"))
+
+            layout.addLayout(bottom_bar)
+
+            self.setLayout(layout)
+
+class PreprocessingPanel(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        label = QLabel("⚙️ Preprocessing Panel")
+        label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(label)
+        self.setLayout(layout)
+
+
+class FeatureExtractionPanel(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        label = QLabel("🔍 Feature Extraction Panel")
+        label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(label)
+        self.setLayout(layout)
+
+
+class SkylineCandidacyPanel(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        label = QLabel("🛰️ Skyline Panel Placeholder")
+        label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(label)
+        self.setLayout(layout)
+
+class ReportPanel(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        label = QLabel("📊 Report Generation Panel")
+        label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(label)
+        self.setLayout(layout)
+
+# === Main GUI ===
 
 class SkylineGUI(QWidget):
     def __init__(self):
@@ -60,16 +141,14 @@ class SkylineGUI(QWidget):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        # ========== Left Layout ==========
+        # ===== Left Layout =====
         left_layout = QVBoxLayout()
         left_layout.setContentsMargins(20, 20, 20, 20)
         left_layout.setSpacing(20)
         main_layout.addLayout(left_layout, stretch=5)
 
-        # ===== Top Bar (Dataset Picker + Carousel) =====
+        # ===== Top Bar =====
         top_bar = QHBoxLayout()
-        top_bar.setSpacing(0)
-
         picker_layout = QVBoxLayout()
         picker_layout.setSpacing(10)
         picker_layout.setContentsMargins(0, 30, 5, 60)
@@ -93,11 +172,7 @@ class SkylineGUI(QWidget):
         carousel_layout.setSpacing(10)
         carousel_container.setLayout(carousel_layout)
 
-        left_arrow = QLabel("◀")
-        left_arrow.setAlignment(Qt.AlignCenter)
-        left_arrow.setStyleSheet("font-size: 18px; color: white;")
-        carousel_layout.addWidget(left_arrow)
-
+        carousel_layout.addWidget(QLabel("◀", alignment=Qt.AlignCenter))
         scroll_area = QScrollArea()
         scroll_area.setFixedHeight(100)
         scroll_area.setWidgetResizable(True)
@@ -118,16 +193,12 @@ class SkylineGUI(QWidget):
         thumbnails_widget.setLayout(thumbs_layout)
         scroll_area.setWidget(thumbnails_widget)
         carousel_layout.addWidget(scroll_area)
-
-        right_arrow = QLabel("▶")
-        right_arrow.setAlignment(Qt.AlignCenter)
-        right_arrow.setStyleSheet("font-size: 18px; color: white;")
-        carousel_layout.addWidget(right_arrow)
+        carousel_layout.addWidget(QLabel("▶", alignment=Qt.AlignCenter))
 
         top_bar.addWidget(carousel_container)
         left_layout.addLayout(top_bar)
 
-        # Horizontal Line
+        # ===== Horizontal Line =====
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setStyleSheet("color: white; background-color: white; max-height: 1px;")
@@ -137,14 +208,13 @@ class SkylineGUI(QWidget):
         self.stack = QStackedWidget()
         left_layout.addWidget(self.stack)
 
-        # ====== Define panels ======
-        self.home_panel = QLabel("Home Panel", alignment=Qt.AlignCenter)
-        self.preprocess_panel = QLabel("Preprocessing Panel", alignment=Qt.AlignCenter)
-        self.feature_panel = QLabel("Feature Extraction Panel", alignment=Qt.AlignCenter)
-        self.skyline_panel = self.create_skyline_panel()
-        self.report_panel = QLabel("Report Generation Panel", alignment=Qt.AlignCenter)
+        # Create and add all panels
+        self.home_panel = HomePanel()
+        self.preprocess_panel = PreprocessingPanel()
+        self.feature_panel = FeatureExtractionPanel()
+        self.skyline_panel = SkylineCandidacyPanel()
+        self.report_panel = ReportPanel()
 
-        # Add panels to stack
         self.stack.addWidget(self.home_panel)
         self.stack.addWidget(self.preprocess_panel)
         self.stack.addWidget(self.feature_panel)
@@ -179,13 +249,13 @@ class SkylineGUI(QWidget):
         line_top.setStyleSheet("color: white; background-color: white; max-height: 1px;")
         sidebar_layout.addWidget(line_top)
 
-        # ===== Menu with Clickable Labels =====
+        # Menu items with tab indices
         menu_items = [
-            ("images/img3.svg", 0),  # Home
-            ("images/img4.svg", 1),  # Preprocessing
-            ("images/img5.svg", 2),  # Feature Extraction
-            ("images/img6.svg", 3),  # Skyline Candidacy
-            ("images/img7.svg", 4)   # Report Generation
+            ("images/img3.svg", 0),
+            ("images/img4.svg", 1),
+            ("images/img5.svg", 2),
+            ("images/img6.svg", 3),
+            ("images/img7.svg", 4)
         ]
 
         for path, index in menu_items:
@@ -204,47 +274,6 @@ class SkylineGUI(QWidget):
         sidebar_layout.addWidget(version_label)
 
         main_layout.addWidget(right_sidebar)
-
-    def create_skyline_panel(self):
-        panel = QWidget()
-        layout = QVBoxLayout()
-        panel.setLayout(layout)
-
-        image_grid = QGridLayout()
-        image_grid.setSpacing(20)
-
-        def add_image_with_label(label_text, img_path, row, col):
-            label = QLabel(label_text)
-            label.setAlignment(Qt.AlignCenter)
-            image = QLabel()
-            image.setPixmap(QPixmap(img_path).scaledToWidth(400))
-            image.setAlignment(Qt.AlignCenter)
-            image_grid.addWidget(label, row, col)
-            image_grid.addWidget(image, row + 1, col)
-
-        add_image_with_label("RAW", "images/raw.svg", 0, 0)
-        add_image_with_label("Preprocessed", "images/preprocessed.svg", 0, 1)
-        add_image_with_label("Skyline candidacy", "images/skyline_candidacy.svg", 2, 0)
-        add_image_with_label("Skyline detection", "images/skyline_detection.svg", 2, 1)
-
-        layout.addLayout(image_grid)
-
-        bottom_bar = QHBoxLayout()
-        bottom_bar.addWidget(QLabel("📍 Current position:"))
-        bottom_bar.addWidget(QLineEdit())
-        bottom_bar.addStretch()
-        bottom_bar.addWidget(QPushButton("👍 Correct"))
-        bottom_bar.addWidget(QPushButton("👎 Incorrect"))
-
-        save_label = HoverImage("images/save.svg")
-        bottom_bar.addWidget(save_label)
-
-        discard_label = HoverImage("images/discard.svg")
-        bottom_bar.addWidget(discard_label)
-
-        layout.addLayout(bottom_bar)
-
-        return panel
 
 
 if __name__ == "__main__":
