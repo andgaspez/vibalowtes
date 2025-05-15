@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="21.555374mm"
+   height="20.621696mm"
+   viewBox="0 0 21.555374 20.621696"
+   version="1.1"
+   id="svg3658"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="incorrect.svg">
+  <defs
+     id="defs3652" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.959798"
+     inkscape:cx="2.5486946"
+     inkscape:cy="52.957201"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3655">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-83.127503,-124.03638)">
+    <g
+       inkscape:export-ydpi="93"
+       inkscape:export-xdpi="93"
+       id="g1495"
+       transform="matrix(0.00288961,0,0,-0.00292844,86.267141,138.73427)"
+       style="fill:#ffffff;stroke:#ffffff">
+      <path
+         id="path1493"
+         d="m 960,5009 c -216,-42 -370,-269 -339,-497 9,-67 42,-154 65,-173 22,-18 17,-25 -39,-57 -100,-56 -182,-173 -208,-293 -7,-30 -9,-86 -6,-129 5,-61 13,-89 44,-151 l 39,-76 -53,-28 c -68,-35 -134,-108 -176,-194 -30,-63 -32,-71 -32,-182 v -116 l 44,-88 44,-88 -29,-20 c -57,-40 -134,-129 -163,-190 -120,-247 1,-538 258,-617 60,-19 94,-20 672,-20 h 609 l -51,-76 c -152,-226 -259,-530 -288,-823 -16,-156 -14,-611 3,-692 77,-361 490,-516 774,-290 98,78 129,134 256,453 129,327 168,408 264,553 90,136 291,337 427,427 89,59 550,298 575,298 6,0 10,-17 10,-39 0,-52 51,-128 105,-155 39,-20 55,-21 445,-21 394,0 407,1 464,23 124,46 239,149 291,257 56,119 55,94 55,1320 0,957 -3,1141 -15,1200 -39,184 -174,333 -355,391 -47,15 -107,18 -411,22 -421,5 -450,1 -517,-62 -32,-31 -47,-55 -57,-91 -11,-44 -15,-50 -36,-47 -13,2 -208,50 -434,107 -438,110 -637,148 -860,165 -169,12 -1311,11 -1375,-1 z m 1480,-215 c 179,-20 311,-49 700,-149 179,-47 368,-95 420,-107 l 95,-23 2,-1170 3,-1170 -297,-149 C 2963,1825 2800,1713 2629,1519 2431,1295 2356,1161 2180,712 2095,496 2069,440 2036,403 1905,253 1677,287 1582,470 l -34,65 5,355 c 3,318 6,365 26,452 60,269 165,492 341,725 64,85 76,121 55,166 -9,19 -26,39 -38,46 -16,8 -226,12 -742,13 -716,3 -720,3 -760,25 -51,27 -79,57 -104,113 -46,102 -12,232 78,295 l 43,30 358,5 c 344,5 360,6 387,26 36,27 51,81 33,124 -23,56 -42,60 -321,60 -273,0 -306,5 -364,52 -56,47 -79,101 -79,183 0,102 47,180 133,218 17,8 152,14 404,17 l 379,5 24,28 c 26,30 33,92 14,127 -22,42 -44,45 -341,50 l -286,5 -41,28 c -65,43 -96,97 -100,177 -2,38 1,85 8,105 16,48 63,101 114,128 40,21 54,22 417,27 405,5 396,4 419,61 16,39 -1,103 -33,121 -16,9 -102,14 -297,18 -258,5 -278,6 -315,27 -187,100 -192,359 -10,444 38,17 78,19 695,19 531,0 681,-3 790,-16 z m 2200,-93 c 61,-32 107,-76 138,-136 l 27,-50 3,-1177 c 2,-1167 2,-1177 -18,-1231 -24,-63 -80,-126 -138,-156 -66,-33 -153,-41 -479,-41 h -313 v 1410 1411 l 368,-3 c 363,-3 367,-3 412,-27 z"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff;stroke:#ffffff" />
+    </g>
+    <text
+       inkscape:export-ydpi="93"
+       inkscape:export-xdpi="93"
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:HELVETICA;-inkscape-font-specification:HELVETICA;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.26458332"
+       x="82.695351"
+       y="144.39597"
+       id="text1513"><tspan
+         sodipodi:role="line"
+         id="tspan1511"
+         x="82.695351"
+         y="144.39597"
+         style="font-size:5.64444447px;fill:#ffffff;stroke:#ffffff;stroke-width:0.26458332">Incorrect</tspan></text>
+  </g>
+</svg>

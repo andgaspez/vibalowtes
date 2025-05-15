@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="skyline_gui" type="skyline_gui.py" name="skyline_gui" output="screen"/>
+</launch>
